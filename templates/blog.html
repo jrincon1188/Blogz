@@ -3,18 +3,19 @@
 {% block content %}
 
 
-    <h1>Build a Blog</h1>
+    <h1>blog posts!</h1>
 
-    <hr />
+    <hr/>
 
-    {% if new_post|length == 0 %}
-    <p>No blog yet</p>
+    {% if blogs|length == 0 %}
+    <p>No blogs yet</p>
     {% endif %}
             
-    {% for Blog in new_post %}
-        <a href=./blog?id={{Blog.id}} style="font-style:bold";>{{Blog.title}}</a>
+    {% for blog in blogs %}
+        <h3><a href="/blog?user={{blog.owner_id}}">{{blog.owner.username}}</a></h3>
 
-        <p>{{Blog.body}}</p>
+        <p>{{blog.body}}</p>
+        <p class="post-author">written by <a href="./blog?user={{blog.owner_id}}">{{blog.owner.username}}</a></p>
         </hr>
     {% endfor %}
    
