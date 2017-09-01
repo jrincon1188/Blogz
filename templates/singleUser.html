@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %} 
-<h1>user posts!</h1>
+<h1>user posts</h1>
+
+{% if blogs|length == 0 %}
+    <p>No blogs for this user yet. Come back later and check again!</p>
+{% endif %}
 
  {% for post in user.blogs %}
         <h3><a href=./blog?id={{post.id}} style="font-style:bold";>{{post.title}}</a></h3>

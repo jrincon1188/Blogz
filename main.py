@@ -1,6 +1,7 @@
 from flask import Flask, request, redirect, render_template, session, flash
 from flask_sqlalchemy import SQLAlchemy
 import string
+from hashutils import make_pwd_hash, check_pwd_hash
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
@@ -27,13 +28,13 @@ class User(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(120), unique=True)
-    password = db.Column(db.String(120))
+    pw_hash = db.Column(db.String(120))
     blogs = db.relationship('Blog', backref='owner')
 
 
     def __init__(self, username, password):
         self.username = username
-        self.password = password
+        self.pw_hash = make_pwd_hash(password)
         
 @app.route('/index', methods=['POST', 'GET'])
 def index():
@@ -68,11 +69,13 @@ def login():
         username = request.form['username']
         password = request.form['password']
         user = User.query.filter_by(username=username).first()
-        if user and user.password != password:
+        pw_hash = user.pw_hash
+       
+        if user and pw_hash != check_pwd_hash(password, user.pw_hash):
             error = "Please enter a valid password"
             return render_template('login.html', error=error)
 
-        if user and user.password == password:
+        if user and pw_hash == check_pwd_hash(password, user.pw_hash):
             session['username'] = username
             return redirect('/newpost')
         else:

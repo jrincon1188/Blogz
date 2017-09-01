@@ -3,12 +3,12 @@
 {% block content %}
 
 
-    <h1>blog posts!</h1>
+    <h1>blog posts</h1>
 
     <hr/>
 
     {% if blogs|length == 0 %}
-    <p>No blogs yet</p>
+    <h4><p>No blogs yet</p></h4>
     {% endif %}
             
     {% for blog in blogs %}
