@@ -92,17 +92,17 @@ def signup():
         verify = request.form['verify']
         error = ''
         
+        if username == '' or password == '' or verify == '':
+            error = 'One or more fields are empty'
+
         existing_user = User.query.filter_by(username=username).first()
         if existing_user:
             error= 'Username already exists. Please try again!'
 
-        if username == '' or password == '' or verify == '':
-            error = 'One or more fields are empty'
-
         if password != verify:
             error = 'Passwords do not match'
 
-        if len(password)<3 or len(username):
+        if len(password)<3 or len(username)<3:
             error = 'Too short. More than 3 characters please!'    
             
         if not existing_user and not error:

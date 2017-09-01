@@ -3,7 +3,7 @@
 {% block content %} 
 <h1>user posts</h1>
 
-{% if blogs|length == 0 %}
+{% if user.blogs|length == 0 %}
     <p>No blogs for this user yet. Come back later and check again!</p>
 {% endif %}
 
